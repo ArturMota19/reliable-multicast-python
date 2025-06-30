@@ -25,6 +25,7 @@ class Process:
         self.pid = pid
         self.peers = peers
         self.port = port
+        self.clock = LamportClock()
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind(('localhost', port))
         threading.Thread(target=self.listen).start()
