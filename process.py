@@ -37,8 +37,10 @@ class Process:
             'time': self.clock.time,
             'msg': msg
         }).encode()
-        for peer in self.peers: # enviando a mensagem para peers
-            self.sock.sendto(message, ('localhost', peer))
+        for peer_port in self.peers: # enviando msg para os peers
+          self.sock.sendto(message, ('localhost', peer_port))
+          print(f"O processo {self.pid} enviou a msg: {msg} no tempo {self.clock.time} para o peer na porta {peer_port}")
+
             
     def listen(self):
         while True:
@@ -52,7 +54,7 @@ if __name__ == "__main__":
   peers = [('localhost', 10001), ('localhost', 10002), ('localhost', 10003)]
   print(sys.argv)
   idx = int(sys.argv[1])
-  process = Process(idx + 1, peers[:idx] + peers[idx+1:], peers[idx][1])
+  process = Process(idx + 1, [p[1] for i, p in enumerate(peers) if i != idx], peers[idx][1])
 
   while True:
       msg = input(f"[P{idx+1}] Digite uma mensagem: ")
