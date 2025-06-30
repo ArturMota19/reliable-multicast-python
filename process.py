@@ -7,6 +7,16 @@ import time
 # todos os processos corretos recebam o mesmo conjunto de mensagens, mesmo na
 # ocorrência de falhas de parada (crash) de processos do grupo
 
+class LamportClock:
+    def __init__(self):
+        self.time = 0
+
+    def tick(self):
+        self.time += 1
+
+    def update(self, received_time):
+        self.time = max(self.time, received_time) + 1
+        
 class Process:
     def __init__(self, pid, peers, port):
         self.pid = pid
