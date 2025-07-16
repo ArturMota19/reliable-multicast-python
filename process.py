@@ -3,7 +3,14 @@ import threading
 import json
 import time
 import sys
-import readline
+try:
+    import readline
+except ImportError:
+    try:
+        import pyreadline3 as readline
+    except ImportError:
+        readline = None  # fallback se nenhum estiver disponível
+
 import builtins
 
 
@@ -20,16 +27,18 @@ prompt_template = "[P{}] Digite uma mensagem (ou ENTER para esperar): "
 # Custom safe_print que respeita o input()
 def safe_print(*args, **kwargs):
     with print_lock:
-        sys.stdout.write("\r\033[K")  # limpa a linha antes de imprimir
+        sys.stdout.write("\r\033[K")
         sys.stdout.flush()
         original_print(*args, **kwargs)
-        try:
-            line = readline.get_line_buffer()
-            prompt = prompt_template.format(sys.argv[1])
-            sys.stdout.write(f"\r{prompt}{line}")
-            sys.stdout.flush()
-        except Exception:
-            pass
+        if readline:
+            try:
+                line = readline.get_line_buffer()
+                prompt = prompt_template.format(sys.argv[1])
+                sys.stdout.write(f"\r{prompt}{line}")
+                sys.stdout.flush()
+            except Exception:
+                pass
+
 
 builtins.print = safe_print
 
