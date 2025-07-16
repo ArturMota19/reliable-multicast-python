@@ -22,7 +22,12 @@ git clone https://github.com/seu-usuario/reliable-multicast-python.git
 cd reliable-multicast-python
 ```
 
-### 3. Rodar os processos
+### 3. Instalar dependências (caso esteja no Windows)
+```
+pip install -r requirements.txt
+```
+
+### 4. Rodar os processos
   - O sistema simula 3 processos diferentes. É necessário rodar cada um em um terminal separado.
   #### Terminal 1:
     >  python process.py 0
@@ -34,6 +39,7 @@ cd reliable-multicast-python
     >  python process.py 2
 
 # Resultado:
+## Envio de mensagem do Processo 1
 ![alt text](image-1.png)
+## Envio de mensagem do Processo 2
 ![alt text](image-2.png)
-![alt text](image-3.png)
